@@ -15,6 +15,10 @@ public class Calculadora extends Frame
     private TextField display;
     private Panel teclado, displ;
     
+    private boolean punto = true, op = true;
+    private char c = ' ';
+    private double num1 = 0.0, num2 = 0.0, res = 0.0; 
+    
 
     /**
      * Constructor for objects of class Calculadora
@@ -31,11 +35,13 @@ public class Calculadora extends Frame
         bMas = new Button("+");  bMenos = new Button("-");
         bMult = new Button("*");  bDiv = new Button("/");
         bPunto = new Button(".");  bBorrar = new Button("C");
+        bIgual = new Button("=");
         
         display  = new TextField("0");
         teclado = new Panel();
         displ = new Panel();
         
+        //  Configuramos el primer panel
         teclado.setLayout( new GridLayout(4,4,2,2) );
         teclado.add(b7);
         teclado.add(b8);
@@ -51,13 +57,40 @@ public class Calculadora extends Frame
         teclado.add(bMenos);
         teclado.add(bIgual);
         teclado.add(b10);
-        teclado.add(bpunto);
+        teclado.add(bPunto);
         teclado.add(bMas);
         
+        //  Configuramos el segundo panel
+        displ.setLayout( new BorderLayout() );
+        displ.add(bBorrar,"East");
+        displ.add( display, "Center" );
         
+        // Integramos la interfaz final
+        add(displ, "North");
+        add(teclado, "Center");
+    }
+    
+    public boolean handleEvent(Event e)
+    {
+        if(e.id == Event.WINDOW_DESTROY) {
+            hide();
+            dispose();
+            return true;
+        }
+        return super.handleEvent(e);
+    }
+    
+    public boolean action(Event e, Object o)
+    {
+        return true;
     }
 
-
+    public static void main(String args[])
+    {
+        Calculadora calc = new Calculadora();
+        calc.resize(400,400);
+        calc.show();
+    }
 }
 
 
