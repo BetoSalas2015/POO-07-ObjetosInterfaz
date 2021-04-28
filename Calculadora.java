@@ -6,6 +6,7 @@
  * @version 1.0
  */
 import java.awt.*;
+import java.awt.event.*;
 
 public class Calculadora extends Frame
 {
@@ -82,6 +83,60 @@ public class Calculadora extends Frame
     
     public boolean action(Event e, Object o)
     {
+        if(e.target instanceof Button) {        ///  quien generó es evento es un botón?
+            if(e.target == bBorrar) {
+                display.setText("0");
+                punto = true;
+                op = true;
+                num1 = num2 = 0.0;
+            }
+            else {
+                if(e.target == bMas || e.target == bMenos || e.target == bMult || e.target == bDiv) {
+                    String signo;
+                    if(op) {
+                        Button b = (Button) e.target;
+                        signo = new String(b.getLabel());
+                        c = signo.charAt(0);
+                        num1 = Double.parseDouble(display.getText());
+                        display.setText("0");
+                        op = false;
+                        punto = true;
+                    }
+                } 
+                else {
+                    if(e.target == bPunto) {
+                        if(punto) {
+                            String displaynum = display.getText();
+                            displaynum = displaynum + ".";
+                            display.setText(displaynum);
+                            punto = false;
+                        }
+                    }
+                    else {
+                        if(e.target == bIgual) {
+                            num2 = Double.parseDouble(display.getText());
+                            switch (c) {
+                                case '+': res = num1 + num2; break;
+                                case '-': res = num1 - num2; break;
+                                case '*': res = num1 * num2; break;
+                                case '/': res = num1 / num2; break;
+                            }
+                            display.setText( String.valueOf(res) );
+                            op = punto = true;
+                        }
+                        else {
+                            Button b = (Button) e.target;
+                            String displaynum = display.getText();
+                            if(displaynum.equals("0"))
+                                displaynum = "";
+                            displaynum = displaynum + b.getLabel();
+                            display.setText(displaynum);
+                        }
+                    }
+                }
+
+            }
+        }
         return true;
     }
 
