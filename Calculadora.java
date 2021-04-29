@@ -3,7 +3,7 @@
  * Write a description of class Calculadora here.
  * 
  * @author Roberto Salazar Marquez 
- * @version 1.0
+ * @version 2.0
  */
 import java.awt.*;
 import java.awt.event.*;
@@ -69,82 +69,116 @@ public class Calculadora extends Frame
         // Integramos la interfaz final
         add(displ, "North");
         add(teclado, "Center");
+        
+        addWindowListener(new WinC());
+        
+        b1.addActionListener( new BotonNumerico() );
+        b2.addActionListener( new BotonNumerico() );
+        b3.addActionListener( new BotonNumerico() );
+        b4.addActionListener( new BotonNumerico() );
+        b5.addActionListener( new BotonNumerico() );
+        b6.addActionListener( new BotonNumerico() );
+        b7.addActionListener( new BotonNumerico() );
+        b8.addActionListener( new BotonNumerico() );
+        b9.addActionListener( new BotonNumerico() );
+        b10.addActionListener( new BotonNumerico() );
+        bBorrar.addActionListener( new BotonC() );
+        bIgual.addActionListener( new BotonIgual() );
+        bMas.addActionListener( new BotonOpera() );
+        bMenos.addActionListener( new BotonOpera() );
+        bMult.addActionListener( new BotonOpera() );
+        bDiv.addActionListener( new BotonOpera() );
+        bPunto.addActionListener( new BotonPunto() );
+        
+        display.setEnabled(false);
+        setSize(400, 400);
+        setVisible(true);
+        
     }
     
-    public boolean handleEvent(Event e)
+    
+    private class WinC extends WindowAdapter 
     {
-        if(e.id == Event.WINDOW_DESTROY) {
-            hide();
+        public void windowClosing(WindowEvent e)
+        {
+            setVisible(false);
             dispose();
-            return true;
         }
-        return super.handleEvent(e);
+
     }
     
-    public boolean action(Event e, Object o)
+    private class BotonC implements ActionListener
     {
-        if(e.target instanceof Button) {        ///  quien generó es evento es un botón?
-            if(e.target == bBorrar) {
-                display.setText("0");
-                punto = true;
-                op = true;
-                num1 = num2 = 0.0;
+        public void actionPerformed(ActionEvent e) 
+        {
+            display.setText("0");
+            punto = true;
+            op = true;
+            num1 = num2 = 0.0;
+        }
+    }
+    
+    private class BotonNumerico implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e) 
+        {
+            String displaynum = display.getText();
+            if(displaynum.equals("0"))
+                  displaynum = "";
+            displaynum = displaynum + e.getActionCommand();
+            display.setText(displaynum);
+        }
+    }
+    
+    private class BotonIgual implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e) 
+        {
+            num2 = Double.parseDouble(display.getText());
+            switch (c) {
+                case '+': res = num1 + num2; break;
+                case '-': res = num1 - num2; break;
+                case '*': res = num1 * num2; break;
+                case '/': res = num1 / num2; break;
             }
-            else {
-                if(e.target == bMas || e.target == bMenos || e.target == bMult || e.target == bDiv) {
-                    String signo;
-                    if(op) {
-                        Button b = (Button) e.target;
-                        signo = new String(b.getLabel());
-                        c = signo.charAt(0);
-                        num1 = Double.parseDouble(display.getText());
-                        display.setText("0");
-                        op = false;
-                        punto = true;
-                    }
-                } 
-                else {
-                    if(e.target == bPunto) {
-                        if(punto) {
-                            String displaynum = display.getText();
-                            displaynum = displaynum + ".";
-                            display.setText(displaynum);
-                            punto = false;
-                        }
-                    }
-                    else {
-                        if(e.target == bIgual) {
-                            num2 = Double.parseDouble(display.getText());
-                            switch (c) {
-                                case '+': res = num1 + num2; break;
-                                case '-': res = num1 - num2; break;
-                                case '*': res = num1 * num2; break;
-                                case '/': res = num1 / num2; break;
-                            }
-                            display.setText( String.valueOf(res) );
-                            op = punto = true;
-                        }
-                        else {
-                            Button b = (Button) e.target;
-                            String displaynum = display.getText();
-                            if(displaynum.equals("0"))
-                                displaynum = "";
-                            displaynum = displaynum + b.getLabel();
-                            display.setText(displaynum);
-                        }
-                    }
-                }
-
+            display.setText( String.valueOf(res) );
+            op = punto = true;
+        }
+    }
+    
+    private class BotonOpera implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e) 
+        {
+            String signo;
+            if(op) {
+                signo = new String( e.getActionCommand() );
+                c = signo.charAt(0);
+                num1 = Double.parseDouble(display.getText());
+                display.setText("0");
+                op = false;
+                punto = true;
             }
         }
-        return true;
     }
+    
+    private class BotonPunto implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e) 
+        {
+            if(punto) {
+                String displaynum = display.getText();
+                displaynum = displaynum + ".";
+                display.setText(displaynum);
+                punto = false;
+            }
+        }
+    }
+    
 
     public static void main(String args[])
     {
-        Calculadora calc = new Calculadora();
-        calc.resize(400,400);
-        calc.show();
+
     }
 }
 
