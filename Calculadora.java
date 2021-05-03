@@ -3,18 +3,19 @@
  * Write a description of class Calculadora here.
  * 
  * @author Roberto Salazar Marquez 
- * @version 2.0
+ * @version 3.0
  */
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
 
-public class Calculadora extends Frame
+public class Calculadora extends JFrame
 {
     // instance variables - replace the example below with your own
-    private Button b1, b2, b3, b4, b5, b6, b7, b8, b9;
-    private Button b10, bMas, bMenos, bMult, bDiv, bIgual, bPunto, bBorrar;
-    private TextField display;
-    private Panel teclado, displ;
+    private JButton b1, b2, b3, b4, b5, b6, b7, b8, b9;
+    private JButton b10, bMas, bMenos, bMult, bDiv, bIgual, bPunto, bBorrar;
+    private JTextField display;
+    private JPanel teclado, displ;
     
     private boolean punto = true, op = true;
     private char c = ' ';
@@ -28,21 +29,21 @@ public class Calculadora extends Frame
     {
         super("Calculadora");
         
-        b1 = new Button("1");  b2 = new Button("2");
-        b3 = new Button("3");  b4 = new Button("4");
-        b5 = new Button("5");  b6 = new Button("6");
-        b7 = new Button("7");  b8 = new Button("8");
-        b9 = new Button("9");  b10 = new Button("0");
-        bMas = new Button("+");  bMenos = new Button("-");
-        bMult = new Button("*");  bDiv = new Button("/");
-        bPunto = new Button(".");  bBorrar = new Button("C");
-        bIgual = new Button("=");
+        b1 = new JButton("1");  b2 = new JButton("2");
+        b3 = new JButton("3");  b4 = new JButton("4");
+        b5 = new JButton("5");  b6 = new JButton("6");
+        b7 = new JButton("7");  b8 = new JButton("8");
+        b9 = new JButton("9");  b10 = new JButton("0");
+        bMas = new JButton("+");  bMenos = new JButton("-");
+        bMult = new JButton("*");  bDiv = new JButton("/");
+        bPunto = new JButton(".");  bBorrar = new JButton("C");
+        bIgual = new JButton("=");
         
-        display  = new TextField("0");
-        teclado = new Panel();
-        displ = new Panel();
+        display  = new JTextField("0");
+        teclado = new JPanel();
+        displ = new JPanel();
         
-        //  Configuramos el primer panel
+        //  Configuramos el primer JPanel
         teclado.setLayout( new GridLayout(4,4,2,2) );
         teclado.add(b7);
         teclado.add(b8);
@@ -61,7 +62,7 @@ public class Calculadora extends Frame
         teclado.add(bPunto);
         teclado.add(bMas);
         
-        //  Configuramos el segundo panel
+        //  Configuramos el segundo JPanel
         displ.setLayout( new BorderLayout() );
         displ.add(bBorrar,"East");
         displ.add( display, "Center" );
