@@ -3,13 +3,14 @@
  * Write a description of class Calculadora here.
  * 
  * @author Roberto Salazar Marquez 
- * @version 3.0
+ * @version 4.0
  */
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.applet.Applet;
 
-public class Calculadora extends JFrame
+public class Calculadora extends Applet
 {
     // instance variables - replace the example below with your own
     private JButton b1, b2, b3, b4, b5, b6, b7, b8, b9;
@@ -25,10 +26,8 @@ public class Calculadora extends JFrame
     /**
      * Constructor for objects of class Calculadora
      */
-    public Calculadora()
-    {
-        super("Calculadora");
-        
+    public void init()
+    {        
         b1 = new JButton("1");  b2 = new JButton("2");
         b3 = new JButton("3");  b4 = new JButton("4");
         b5 = new JButton("5");  b6 = new JButton("6");
@@ -68,10 +67,9 @@ public class Calculadora extends JFrame
         displ.add( display, "Center" );
         
         // Integramos la interfaz final
+        setLayout( new BorderLayout() );
         add(displ, "North");
         add(teclado, "Center");
-        
-        addWindowListener(new WinC());
         
         b1.addActionListener( new BotonNumerico() );
         b2.addActionListener( new BotonNumerico() );
@@ -91,23 +89,9 @@ public class Calculadora extends JFrame
         bDiv.addActionListener( new BotonOpera() );
         bPunto.addActionListener( new BotonPunto() );
         
-        display.setEnabled(false);
-        setSize(400, 400);
-        setVisible(true);
-        
+        display.setEnabled(false);      
     }
-    
-    
-    private class WinC extends WindowAdapter 
-    {
-        public void windowClosing(WindowEvent e)
-        {
-            setVisible(false);
-            dispose();
-        }
 
-    }
-    
     private class BotonC implements ActionListener
     {
         public void actionPerformed(ActionEvent e) 
